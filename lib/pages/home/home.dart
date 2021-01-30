@@ -1,19 +1,23 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase1/models/orders.dart';
 import 'package:firebase1/pages/home/orderList.dart';
 import 'package:firebase1/pages/test/lockerInfo.dart';
 import 'package:firebase1/services/auth.dart';
 import 'package:firebase1/services/database.dart';
 import 'package:firebase1/pages/home/settingsForm.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 
 class HomePage extends StatelessWidget {
-
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  _getToken()async{
+    _firebaseMessaging.getToken().then((device){print('token: $device');});
+  }
   final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
     void _showSettingsPanel(){
@@ -50,7 +54,11 @@ class HomePage extends StatelessWidget {
                 onPressed: _showSettingsPanel,
                 icon: Icon(Icons.settings),
                 label: Text('settings'),
-              )
+              ),
+              IconButton(
+                icon: Icon(Icons.chat_bubble_outline),
+                onPressed: ()async{await _getToken();},
+              ),
             ],
           ),
         backgroundColor: Colors.grey,

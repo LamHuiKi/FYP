@@ -12,6 +12,12 @@ class LockerInfo extends StatelessWidget {
         child: Scaffold(
           appBar: AppBar(
             title: Text('LockerInfo'),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.phone_android),
+                onPressed: null
+              )
+            ],
           ),
         body: LockerInfoList(),
         ),

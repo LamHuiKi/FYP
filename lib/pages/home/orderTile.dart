@@ -9,7 +9,7 @@ class OrderTile extends StatelessWidget {
   final Orders order;
   OrderTile({this.order});
   qrScan(context){
-    Navigator.push(context, MaterialPageRoute(builder: (context)=>QRViewExample()) );
+  Navigator.push(context, MaterialPageRoute(builder: (context)=>QRViewExample()) );
   }
 
   @override
@@ -19,9 +19,7 @@ class OrderTile extends StatelessWidget {
         title: Row(
           children: [
             Text(order.valueA),
-            //Text(order.lockerStatus), //test code
-            //Text(documents.data())
-            IconButton(icon: Icon(Icons.change_history), onPressed: null)
+            //IconButton(icon: Icon(Icons.change_history), onPressed: null)
           ],
         ),
         subtitle: Text((order.valueB).toString()),

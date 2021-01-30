@@ -7,7 +7,7 @@ class LockerInfoTile extends StatelessWidget {
   LockerInfoTile({this.info});
   @override
   Widget build(BuildContext context) {
-    bool status = info.get('lockerStatus');
+    bool status = info.get('lockerStatus'); 
     String id = info.id;
     return Card(
       child: ListTile(

@@ -5,7 +5,6 @@ import 'package:firebase1/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-//import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
