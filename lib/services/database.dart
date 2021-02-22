@@ -17,10 +17,18 @@ class DatabaseService{
     });
   }
 
-  Future updateLockerDatabase(bool status, bool available)async{    //test
+  /*Future updateLockerDatabase(bool status, bool available, bool open)async{    //test
     return await lockerCollection.doc(lockerid).set({
       'lockerStatus': status,
       'available': available,
+    });
+  }*/
+
+  Future updateLockerDatabase(String field, bool value)async{    //test
+    return await lockerCollection.doc(lockerid).update({
+      /*'lockerStatus': status,
+      'available': available,*/
+      field: value,
     });
   }
   

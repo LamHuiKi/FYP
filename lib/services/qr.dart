@@ -45,7 +45,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                 children: <Widget>[
                   if (result != null)
                     Text(
-                        'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')
+                        'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')                      
+                        //dnjsndjsdjnd
                   else
                     Text('Scan a code'),
                   Row(
@@ -103,7 +104,8 @@ class _QRViewExampleState extends State<QRViewExample> {
                         child: RaisedButton(
                           onPressed: () {
                             controller?.resumeCamera();
-                            Navigator.pop(context);
+                            //Navigator.pop(context);
+                            Navigator.pop(context, result?.code??".......");
                           },
                           child: Text('resume', style: TextStyle(fontSize: 20)),
                         ),

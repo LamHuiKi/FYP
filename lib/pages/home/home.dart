@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:qr_code_scanner/qr_code_scanner.dart';
-
+import 'package:firebase1/services/pushNotification.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -18,6 +18,7 @@ class HomePage extends StatelessWidget {
     _firebaseMessaging.getToken().then((device){print('token: $device');});
   }
   final AuthService _auth = AuthService();
+  
   @override
   Widget build(BuildContext context) {
     void _showSettingsPanel(){
@@ -36,12 +37,12 @@ class HomePage extends StatelessWidget {
       value: DatabaseService().orders,
           child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blueGrey,
-            title: Text('My Home Page!'),
+            //backgroundColor: Colors.blueGrey,
+            title: Text('My Home'),
             actions: [
               IconButton(
                 icon: Icon(Icons.chat_bubble_outline),
-                onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> LockerInfo()));},
+                onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> LockerInfo() ));},
               ),
               FlatButton.icon(
                 onPressed: ()async{
@@ -56,7 +57,7 @@ class HomePage extends StatelessWidget {
                 label: Text('settings'),
               ),
               IconButton(
-                icon: Icon(Icons.chat_bubble_outline),
+                icon: Icon(Icons.text_fields),
                 onPressed: ()async{await _getToken();},
               ),
             ],

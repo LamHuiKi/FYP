@@ -14,7 +14,7 @@ class LockerInfoTile extends StatelessWidget {
         title: Text(status.toString()),//info.get('lockerStatus').toString()),
         trailing: IconButton(
           icon: Icon(status? Icons.toggle_on: Icons.toggle_off),
-          onPressed: ()async{DatabaseService(lockerid: id).updateLockerDatabase(!status, true);},
+          onPressed: ()async{DatabaseService(lockerid: id).updateLockerDatabase('lockerStatus', !status);},
         ),
       ),
     );

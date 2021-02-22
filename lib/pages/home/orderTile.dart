@@ -2,14 +2,17 @@
 import 'package:flutter/material.dart';
 import 'package:firebase1/models/orders.dart';
 import 'package:firebase1/services/qr.dart';
+import 'package:firebase1/services/database.dart';
 //import 'package:provider/provider.dart';
 
 class OrderTile extends StatelessWidget {
   
   final Orders order;
   OrderTile({this.order});
-  qrScan(context){
-  Navigator.push(context, MaterialPageRoute(builder: (context)=>QRViewExample()) );
+  qrScan(context)async{
+   String result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>QRViewExample()) ) ?? "...";
+   //print("result: $result");
+   await DatabaseService(lockerid: result).updateLockerDatabase('open', true);
   }
 
   @override
