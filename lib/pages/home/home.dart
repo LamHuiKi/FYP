@@ -1,5 +1,7 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase1/models/orders.dart';
+import 'package:firebase1/models/user.dart';
 import 'package:firebase1/pages/home/orderList.dart';
 import 'package:firebase1/pages/test/lockerInfo.dart';
 import 'package:firebase1/services/auth.dart';
@@ -19,8 +21,10 @@ class HomePage extends StatelessWidget {
   }
   final AuthService _auth = AuthService();
   
+
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<MyUserInfo>(context);
     void _showSettingsPanel(){
       showModalBottomSheet(
         context: context,
@@ -34,7 +38,7 @@ class HomePage extends StatelessWidget {
     }
 
     return StreamProvider<List<Orders>>.value(
-      value: DatabaseService().orders,
+      value: DatabaseService(uid: user.uid/*"bEkhUfoYuqSMCiybDrEHigaRqso1" */).orders,
           child: Scaffold(
           appBar: AppBar(
             //backgroundColor: Colors.blueGrey,
@@ -42,7 +46,7 @@ class HomePage extends StatelessWidget {
             actions: [
               IconButton(
                 icon: Icon(Icons.chat_bubble_outline),
-                onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> LockerInfo() ));},
+                onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsForm() ));},
               ),
               FlatButton.icon(
                 onPressed: ()async{
@@ -58,7 +62,10 @@ class HomePage extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(Icons.text_fields),
-                onPressed: ()async{await _getToken();},
+                onPressed: ()async{
+                  print(FirebaseFirestore.instance.doc("orders/bEkhUfoYuqSMCiybDrEHigaRqso1/Ongoing/first").path);
+                  await _getToken();
+                },
               ),
             ],
           ),
