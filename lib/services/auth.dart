@@ -41,7 +41,7 @@ class AuthService{
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
-      await DatabaseService(/*uid: user.uid*/).updateDatabase('my first test value', 1);//database init
+      await DatabaseService(uid: user.uid).updateDatabase('my first test value', 1);//database init
       return _getDataFromFireBaseUser(user);
     }catch(error){
       print('error: ${error.toString()}');

@@ -10,9 +10,8 @@ import 'package:firebase1/pages/home/settingsForm.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:firebase1/services/pushNotification.dart';
+import 'package:firebase1/models/previousOrder.dart';
+import 'package:firebase1/models/AwaitOrder.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -37,40 +36,46 @@ class HomePage extends StatelessWidget {
       );
     }
 
-    return StreamProvider<List<Orders>>.value(
-      value: DatabaseService(uid: user.uid/*"bEkhUfoYuqSMCiybDrEHigaRqso1" */).orders,
-          child: Scaffold(
-          appBar: AppBar(
-            //backgroundColor: Colors.blueGrey,
-            title: Text('My Home'),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.chat_bubble_outline),
-                onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsForm() ));},
+    return StreamProvider<List<AwaitOrders>>.value(
+          value: DatabaseService(uid:user.uid).awaitOrders,
+          child: StreamProvider<List<PreviousOrders>>.value(
+            value: DatabaseService(uid:user.uid).previousOrders,
+            child: StreamProvider<List<Orders>>.value(
+              value: DatabaseService(uid: user.uid).orders,
+              child: Scaffold(
+                appBar: AppBar(
+                //backgroundColor: Colors.blueGrey,
+                title: Text('My Home'),
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.chat_bubble_outline),
+                    onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsForm() ));},
+                  ),
+                  FlatButton.icon(
+                    onPressed: ()async{
+                      await _auth.signOut();
+                    },
+                    icon: Icon(Icons.person),
+                    label: Text('logout'),
+                  ),
+                  FlatButton.icon(
+                    onPressed: _showSettingsPanel,
+                    icon: Icon(Icons.settings),
+                    label: Text('settings'),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.text_fields),
+                    onPressed: ()async{
+                      print(FirebaseFirestore.instance.doc("orders/bEkhUfoYuqSMCiybDrEHigaRqso1/Ongoing/first").path);
+                      await _getToken();
+                    },
+                  ),
+                ],
               ),
-              FlatButton.icon(
-                onPressed: ()async{
-                  await _auth.signOut();
-                },
-                icon: Icon(Icons.person),
-                label: Text('logout'),
-              ),
-              FlatButton.icon(
-                onPressed: _showSettingsPanel,
-                icon: Icon(Icons.settings),
-                label: Text('settings'),
-              ),
-              IconButton(
-                icon: Icon(Icons.text_fields),
-                onPressed: ()async{
-                  print(FirebaseFirestore.instance.doc("orders/bEkhUfoYuqSMCiybDrEHigaRqso1/Ongoing/first").path);
-                  await _getToken();
-                },
-              ),
-            ],
+            backgroundColor: Colors.grey,
+            body: OrderList(),
           ),
-        backgroundColor: Colors.grey,
-        body: OrderList(),
+        ),
       ),
     );
   }
