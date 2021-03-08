@@ -33,7 +33,10 @@ class PreviousTile extends StatelessWidget {
             Text(order.id),
           ],
         ),
-      //  trailing: IconButton(icon: Icon(Icons.qr_code_scanner), onPressed: (){qrScan(context);})
+        trailing: IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {},
+        ),
       ),
     );
   }

@@ -31,7 +31,10 @@ class AwaitTile extends StatelessWidget {
             Text(order.id),
           ],
         ),
-      //  trailing: IconButton(icon: Icon(Icons.qr_code_scanner), onPressed: (){qrScan(context);})
+        trailing: Text(
+          "Pending User Retrival",
+          style: TextStyle(color: Colors.red),
+        ),
       ),
     );
   }

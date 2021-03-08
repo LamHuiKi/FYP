@@ -37,7 +37,9 @@ class _SettingsFormState extends State<SettingsForm> {
                 ),
                 SizedBox(height: 20.0),
                 TextFormField(
-                  initialValue: _valueAInput ?? userData.valueA,
+                  textInputAction: TextInputAction.newline,
+                  maxLines: 1,
+                  //initialValue: _valueAInput ?? userData.valueA,
                   validator: (val) => val.isEmpty? 'Enter' : null,
                   onChanged: (val){
                     setState(() => _valueAInput = val);
@@ -65,7 +67,7 @@ class _SettingsFormState extends State<SettingsForm> {
                     print(_valueAInput);
                     print(_valueBInput);
                     print(_valueCInput);
-                    await DatabaseService(/*uid: user.uid*/).updateDatabase(_valueAInput ?? userData.valueA, _valueBInput ?? userData.valueB);
+                    await DatabaseService(uid: user.uid).updateDatabase(_valueAInput ?? userData.valueA, _valueBInput ?? userData.valueB);
                     Navigator.pop(context);
                   },
                   child: Text('Update'),

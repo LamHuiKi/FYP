@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase1/models/previousOrder.dart';
 import 'package:firebase1/models/AwaitOrder.dart';
+import 'newOrderForm.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -64,16 +65,22 @@ class HomePage extends StatelessWidget {
                     label: Text('settings'),
                   ),
                   IconButton(
-                    icon: Icon(Icons.text_fields),
+                    icon: Icon(Icons.add),
                     onPressed: ()async{
-                      print(FirebaseFirestore.instance.doc("orders/bEkhUfoYuqSMCiybDrEHigaRqso1/Ongoing/first").path);
+                      //print(FirebaseFirestore.instance.doc("orders/bEkhUfoYuqSMCiybDrEHigaRqso1/Ongoing/first").path);
                       await _getToken();
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderForm() ));
                     },
                   ),
                 ],
               ),
             backgroundColor: Colors.grey,
             body: OrderList(),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderForm() ));},
+              backgroundColor: Colors.purple,
+            ),
           ),
         ),
       ),
