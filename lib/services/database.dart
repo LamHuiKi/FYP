@@ -24,7 +24,7 @@ class DatabaseService{
     return FirebaseFirestore.instance.collection('orders/$uid/$path');
   }
 
-  Future newDocumentInDatabase(String docName, String path, String date, String time, String id, String phoneNumber, String food)async{
+  Future newDocumentInDatabase(String docName, String path, String date, String time, String id, String phoneNumber, String food, String lockerCell)async{
     if(docName == null){
       DocumentReference ref = getCollection(uid, path).doc();
       await ref.set({
@@ -34,6 +34,7 @@ class DatabaseService{
       'docId': ref.id,
       'phoneNumber': phoneNumber,
       'food': food,
+      'lockerCell': lockerCell,
     });
     return ref;
     }
@@ -44,20 +45,24 @@ class DatabaseService{
       'docId': docName,
       'phoneNumber': phoneNumber,
       'food': food,
+      'lockerCell': lockerCell,
     });
   }
   
-  Future updateDatabase(String valueA, int valueB)async{
-    return await getCollection(uid, "Ongoing").doc(uid).update({
-      'valueA': valueA,
-      'valueB': valueB,
+  Future updateDatabase(String nickname, String phoneNumber)async{
+    await orderCollection.doc(uid).set({
+      'nickname': nickname,
+      'phoneNumber': phoneNumber,
     });
+    await newDocumentInDatabase('Empty', 'Ongoing', null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'AwaitPickUp', null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'Previous', null, null, null, null, null, null);
   }
 
   Future switchOrderType(String docName, String before, String after)async{
     DocumentSnapshot docRef = await getCollection(uid, before).doc(docName).get();
     
-    await newDocumentInDatabase(docName, after, docRef.data()['date'], docRef.data()['time'], docRef.data()['id'], docRef.data()['phoneNumber'], docRef.data()['food']);
+    await newDocumentInDatabase(docName, after, docRef.data()['date'], docRef.data()['time'], docRef.data()['id'], docRef.data()['phoneNumber'], docRef.data()['food'], docRef.data()['lockerCell']);
     await getCollection(uid, before).doc(docName).delete();
   }
 
@@ -73,6 +78,9 @@ class DatabaseService{
         date: doc.data()['date'] ?? '',
         time: doc.data()['time'] ?? '',
         id: doc.data()['id'] ?? '',
+        docId: doc.data()['docId'] ?? '',
+        food: doc.data()['food'] ?? '',
+        phoneNumber: doc.data()['phoneNumber'] ?? '',
       );
     }).toList();
   }
@@ -96,7 +104,9 @@ class DatabaseService{
         date: doc.data()['date'] ?? '',
         time: doc.data()['time'] ?? '',
         id: doc.data()['id'] ?? '',
-        
+        docId: doc.data()['docId'] ?? '',
+        food: doc.data()['food'] ?? '',
+        phoneNumber: doc.data()['phoneNumber'] ?? '',
       );
     }).toList();
   }

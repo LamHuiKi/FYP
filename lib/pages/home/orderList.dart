@@ -65,7 +65,7 @@ class _OrderListState extends State<OrderList> {
                   return Column(
                     children: [
                       Text("Ongoing"),
-                      OrderTile(order: snapshot.data[0][index]),
+                      if(OrderTile(order: snapshot.data[0][index]).order.docId != "Empty")OrderTile(order: snapshot.data[0][index]),
                     ],
                   );
                 }
@@ -74,7 +74,7 @@ class _OrderListState extends State<OrderList> {
                   return Column(
                     children: [
                       Text("Await for pickup"),
-                      AwaitTile(order: snapshot.data[1][index-orders.length])
+                      if(AwaitTile(order: snapshot.data[1][index-orders.length]).order.docId != "Empty")AwaitTile(order: snapshot.data[1][index-orders.length])
                     ],
                   );
                 }
@@ -83,7 +83,7 @@ class _OrderListState extends State<OrderList> {
                   return Column(
                     children: [
                       Text("Previous"),
-                      PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]),
+                      if(PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]).order.docId != "Empty")PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]),
                     ],
                   );
                 }

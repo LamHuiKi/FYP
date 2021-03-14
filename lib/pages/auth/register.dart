@@ -15,6 +15,8 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
+  String nickName = '';
+  String phoneNumber = '';
   String errorMessage = '';
 
   @override
@@ -44,17 +46,43 @@ class _RegisterState extends State<Register> {
                 children: [
                   SizedBox(height: 20),
                   TextFormField(
-                    validator: (val) => val.isEmpty? 'Enter an email la' : null,
+                    decoration: InputDecoration(
+                        hintText: 'Email',
+                      ),
+                    validator: (val) => val.isEmpty? 'Enter an email' : null,
                     onChanged: (val){
                       setState(() => email = val);
                     },
                   ),
                   SizedBox(height: 20),
                   TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Password',
+                      ),
                     obscureText: true,
-                    validator: (val) => val.isEmpty? 'Enter a password la' : null,
+                    validator: (val) => val.isEmpty? 'Enter a password' : null,
                     onChanged: (val){
                       setState(() => password = val); },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'Nickname',
+                      ),
+                    obscureText: true,
+                    validator: (val) => val.isEmpty? 'Enter a nickName' : null,
+                    onChanged: (val){
+                      setState(() => nickName = val); },
+                  ),
+                  SizedBox(height: 20),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: 'phone Number',
+                      ),
+                    obscureText: true,
+                    validator: (val) => val.isEmpty? 'Enter a phoneNumber' : null,
+                    onChanged: (val){
+                      setState(() => phoneNumber = val); },
                   ),
                   SizedBox(height: 20),
                   RaisedButton(
@@ -63,7 +91,7 @@ class _RegisterState extends State<Register> {
                       if(_formKey.currentState.validate()){
                         print('Email: $email');
                         print('Password: $password');
-                        dynamic result = await _auth.registerWithEmail(email, password);
+                        dynamic result = await _auth.registerWithEmail(email, password, nickName, phoneNumber);
                         if(result == null){
                           setState(() => errorMessage = 'Please apply a valid email');
                         }

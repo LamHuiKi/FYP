@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase1/services/database.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase1/models/user.dart';
+import 'package:intl/intl.dart';
 
 class OrderForm extends StatefulWidget {
   @override
@@ -51,7 +52,7 @@ class _OrderFormState extends State<OrderForm> {
                 FlatButton(
                   child: Text('Order!!!!'),
                   onPressed: ()async{
-                    await DatabaseService(uid: user.uid).newDocumentInDatabase(null, "Ongoing", DateTime.now().toString(), "time", user.uid, _phone, _food);
+                    await DatabaseService(uid: user.uid).newDocumentInDatabase(null, "Ongoing", DateFormat.yMd().format(DateTime.now()), DateFormat.jm().format(DateTime.now()), user.uid, _phone, _food, null);
                   },
                   color: Colors.deepPurpleAccent,
                 ),

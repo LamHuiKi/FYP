@@ -37,11 +37,11 @@ class AuthService{
     }
   }
   //register-email-password
-  Future registerWithEmail(String email, String password) async{
+  Future registerWithEmail(String email, String password, String nickName, String phoneNumber) async{
     try{
       UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User user = result.user;
-      await DatabaseService(uid: user.uid).updateDatabase('my first test value', 1);//database init
+      await DatabaseService(uid: user.uid).updateDatabase(nickName, phoneNumber);//database init
       return _getDataFromFireBaseUser(user);
     }catch(error){
       print('error: ${error.toString()}');

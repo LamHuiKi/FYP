@@ -49,7 +49,7 @@ class _SignInState extends State<SignIn> {
                       decoration: InputDecoration(
                         hintText: 'Email',
                       ),
-                      validator: (val) => val.isEmpty? 'Enter an email la' : null,
+                      validator: (val) => val.isEmpty? 'Enter an email' : null,
                       onChanged: (val){
                         setState(() => email = val);
                       },
@@ -60,7 +60,7 @@ class _SignInState extends State<SignIn> {
                         hintText: 'Password',
                       ),
                       obscureText: true,
-                      validator: (val) => val.isEmpty? 'Enter a password la' : null,
+                      validator: (val) => val.isEmpty? 'Enter a password' : null,
                       onChanged: (val){
                         setState(() => password = val);
                       },

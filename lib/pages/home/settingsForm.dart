@@ -13,7 +13,7 @@ class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
   final List<int> values = [0, 1, 2, 3];
   String _valueAInput;
-  int _valueBInput;
+  String _valueBInput;
   int _valueCInput;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,11 @@ class _SettingsFormState extends State<SettingsForm> {
     final user = Provider.of<MyUserInfo>(context);
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Update the settings',
+          style: TextStyle(fontSize: 15.0),
+        ),
+      ),
       body: StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).userData,
         builder: (context, snapshot) {
@@ -32,11 +36,12 @@ class _SettingsFormState extends State<SettingsForm> {
             key: _formKey,
             child: Column(
               children: [
-                Text('Update the settings',
-                style: TextStyle(fontSize: 20.0),
-                ),
+                
                 SizedBox(height: 20.0),
                 TextFormField(
+                  decoration: InputDecoration(
+                    hintText: 'Nickname',
+                  ),
                   textInputAction: TextInputAction.newline,
                   maxLines: 1,
                   //initialValue: _valueAInput ?? userData.valueA,
@@ -46,11 +51,23 @@ class _SettingsFormState extends State<SettingsForm> {
                   },
                 ),
                 SizedBox(height:20.0),
-                DropdownButtonFormField(
+                TextFormField(
+                  decoration: InputDecoration(
+                        hintText: 'your phone number',
+                  ),
+                  textInputAction: TextInputAction.newline,
+                  maxLines: 1,
+                  //initialValue: _valueAInput ?? userData.valueA,
+                  validator: (val) => val.isEmpty? 'Enter' : null,
+                  onChanged: (val){
+                    setState(() => _valueBInput = val);
+                  },
+                ),
+                /*DropdownButtonFormField(
                   value: _valueBInput ?? userData.valueB,
                   items: values.map((inputNumber) => DropdownMenuItem(value: inputNumber, child: Text('$inputNumber'))).toList(),
                   onChanged: (inputNumber) => setState(() => _valueBInput = inputNumber),
-                ),
+                ),*/
                 SizedBox(height:20.0),
                 Slider(
                   value: (_valueCInput ?? 400).toDouble(),
@@ -72,12 +89,6 @@ class _SettingsFormState extends State<SettingsForm> {
                   },
                   child: Text('Update'),
                 ),
-                RaisedButton(
-                  onPressed: ()async{
-                    //await DatabaseService(uid: "new2").newDocumentInDatabase('Value by make order', 2);
-                  },
-                  child: Text("Make Order"),
-                )
               ]
             ),
           );

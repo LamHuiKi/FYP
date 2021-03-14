@@ -4,7 +4,9 @@ class PreviousOrders extends ChangeNotifier {
   final String time;
   final String date;
   final String id;
+  final String docId;
+  final String phoneNumber;
+  final String food;
 
-
-  PreviousOrders({this.time, this.date, this.id});
+  PreviousOrders({this.time, this.date, this.id, this.docId, this.phoneNumber, this.food});
 }
