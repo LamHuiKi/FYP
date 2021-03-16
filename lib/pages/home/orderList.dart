@@ -17,6 +17,8 @@ class OrderList extends StatefulWidget {
 }
 
 class _OrderListState extends State<OrderList> {
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -24,11 +26,11 @@ class _OrderListState extends State<OrderList> {
     final previousOrders = Provider.of<List<PreviousOrders>>(context) ?? [];
     final awaitOrders = Provider.of<List<AwaitOrders>>(context) ?? [];
     final user = Provider.of<MyUserInfo>(context);
-
-    orders.forEach((orders) {
+    final user1 = Provider.of<UserData>(context);
+   /* orders.forEach((orders) {
       print(orders.date);
       print(orders.time);
-     });
+     });*/
     //return Container();
     /*return StreamBuilder(
           stream: CombineLatestStream.list([
@@ -50,7 +52,8 @@ class _OrderListState extends State<OrderList> {
   }
 }
 */
-
+if(user1 == null)return SizedBox(height: 0);
+if(user1.isStaff == true){
        return StreamBuilder(
           stream: CombineLatestStream.list([
             DatabaseService(uid: user.uid).orders,
@@ -88,10 +91,45 @@ class _OrderListState extends State<OrderList> {
                   );
                 }
                 if(index < (orders.length + previousOrders.length + awaitOrders.length))return PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]);
-              return null;
+              return SizedBox(height: 0);
               }
             );
           }
           );
   }
+  else{
+    return StreamBuilder(
+          stream: CombineLatestStream.list([
+            DatabaseService(uid: user.uid).orders,
+            DatabaseService(uid: user.uid).previousOrders,
+          ]),
+          builder: (context, snapshot){
+            return ListView.builder(
+              itemCount: orders.length + previousOrders.length,
+              itemBuilder: (context, index) {
+                if(index == 0) {
+                  return Column(
+                    children: [
+                      Text("Ongoing"),
+                      if(OrderTile(order: snapshot.data[0][index]).order.docId != "Empty")OrderTile(order: snapshot.data[0][index]),
+                    ],
+                  );
+                }
+                if(index < orders.length /*&& (OrderTile(order: snapshot.data[0][index]).order.docId != "Empty")*/)return OrderTile(order: snapshot.data[0][index]);
+                if(index == orders.length){
+                  return Column(
+                    children: [
+                      Text("Previous"),
+                      if(PreviousTile(order: snapshot.data[1][index-orders.length]).order.docId != "Empty")PreviousTile(order: snapshot.data[1][index-orders.length]),
+                    ],
+                  );
+                }
+                if(index < (orders.length + previousOrders.length) /*&& PreviousTile(order: snapshot.data[1][index-orders.length]).order.docId != "Empty"*/)return PreviousTile(order: snapshot.data[1][index-orders.length]);
+              return SizedBox(height: 0);
+              }
+            );
+          }
+          );
+  }
+}
 }

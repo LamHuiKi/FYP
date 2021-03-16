@@ -84,7 +84,7 @@ class _SettingsFormState extends State<SettingsForm> {
                     print(_valueAInput);
                     print(_valueBInput);
                     print(_valueCInput);
-                    await DatabaseService(uid: user.uid).updateDatabase(_valueAInput ?? userData.valueA, _valueBInput ?? userData.valueB);
+                    await DatabaseService(uid: user.uid).updateDatabase(_valueAInput ?? userData.valueA, _valueBInput ?? userData.valueB, true);
                     Navigator.pop(context);
                   },
                   child: Text('Update'),

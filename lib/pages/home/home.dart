@@ -38,52 +38,54 @@ class HomePage extends StatelessWidget {
     }
 
     return StreamProvider<List<AwaitOrders>>.value(
-          value: DatabaseService(uid:user.uid).awaitOrders,
-          child: StreamProvider<List<PreviousOrders>>.value(
-            value: DatabaseService(uid:user.uid).previousOrders,
-            child: StreamProvider<List<Orders>>.value(
-              value: DatabaseService(uid: user.uid).orders,
+      value: DatabaseService(uid:user.uid).awaitOrders,
+      child: StreamProvider<List<PreviousOrders>>.value(
+        value: DatabaseService(uid:user.uid).previousOrders,
+        child: StreamProvider<List<Orders>>.value(
+          value: DatabaseService(uid: user.uid).orders,
+          child: StreamProvider<UserData>.value(
+            value: DatabaseService(uid: user.uid).userData,
               child: Scaffold(
-                appBar: AppBar(
-                //backgroundColor: Colors.blueGrey,
-                title: Text('My Home'),
-                actions: [
-                  IconButton(
-                    icon: Icon(Icons.chat_bubble_outline),
-                    onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsForm() ));},
-                  ),
-                  FlatButton.icon(
-                    onPressed: ()async{
-                      await _auth.signOut();
-                    },
-                    icon: Icon(Icons.person),
-                    label: Text('logout'),
-                  ),
-                  FlatButton.icon(
-                    onPressed: _showSettingsPanel,
-                    icon: Icon(Icons.settings),
-                    label: Text('settings'),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: ()async{
-                      //print(FirebaseFirestore.instance.doc("orders/bEkhUfoYuqSMCiybDrEHigaRqso1/Ongoing/first").path);
-                      await _getToken();
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderForm() ));
-                    },
-                  ),
-                ],
-              ),
-            backgroundColor: Colors.grey,
-            body: OrderList(),
-            floatingActionButton: FloatingActionButton(
-              child: Icon(Icons.add),
-              onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderForm() ));},
-              backgroundColor: Colors.purple,
+              appBar: AppBar(
+              //backgroundColor: Colors.blueGrey,
+              title: Text('My Home'),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.chat_bubble_outline),
+                  onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsForm() ));},
+                ),
+                FlatButton.icon(
+                  onPressed: ()async{
+                    await _auth.signOut();
+                  },
+                  icon: Icon(Icons.person),
+                  label: Text('logout'),
+                ),
+                FlatButton.icon(
+                  onPressed: _showSettingsPanel,
+                  icon: Icon(Icons.settings),
+                  label: Text('settings'),
+                ),
+                IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: ()async{
+                    await _getToken();
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderForm() ));
+                  },
+                ),
+              ],
             ),
-          ),
+        backgroundColor: Colors.grey,
+        body: OrderList(),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderForm() ));},
+            backgroundColor: Colors.purple,
         ),
       ),
-    );
+          ),
+    ),
+        ),
+      );
   }
 }

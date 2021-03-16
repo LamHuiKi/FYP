@@ -29,8 +29,8 @@ class PreviousTile extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(order.date),
-            Text(order.id),
+            Text(order.food),
+            Text("${order.date} ${order.time}"),
           ],
         ),
         trailing: IconButton(

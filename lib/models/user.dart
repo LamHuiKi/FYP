@@ -10,6 +10,8 @@ class UserData{
   final String valueA;
   final int valueB;
   final String phoneNumber;
+  final String nickname;
+  final bool isStaff;
 
-  UserData({this.valueA, this.valueB, this.uid, this.phoneNumber});
+  UserData({this.valueA, this.valueB, this.uid, this.phoneNumber, this.nickname, this.isStaff});
 }

@@ -18,6 +18,10 @@ class _RegisterState extends State<Register> {
   String nickName = '';
   String phoneNumber = '';
   String errorMessage = '';
+  bool isStaff = false;
+  void toggleIsStaffButton(){
+    setState((){isStaff = !isStaff;});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,19 +89,28 @@ class _RegisterState extends State<Register> {
                       setState(() => phoneNumber = val); },
                   ),
                   SizedBox(height: 20),
+                  Row(
+                  children:[
+                    Text('Sign up as staff?'),
+                    IconButton(
+                      icon: Icon(isStaff? Icons.toggle_on : Icons.toggle_off),
+                      onPressed: toggleIsStaffButton,
+                    ),
+                  ]
+                  ),
                   RaisedButton(
                     child: Text('register'),
                     onPressed: () async{
                       if(_formKey.currentState.validate()){
                         print('Email: $email');
                         print('Password: $password');
-                        dynamic result = await _auth.registerWithEmail(email, password, nickName, phoneNumber);
+                        dynamic result = await _auth.registerWithEmail(email, password, nickName, phoneNumber, isStaff);
                         if(result == null){
                           setState(() => errorMessage = 'Please apply a valid email');
                         }
                       }
                     },
-                  )
+                  ),
                 ],
               ),
             ),
