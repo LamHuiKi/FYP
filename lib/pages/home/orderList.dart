@@ -68,29 +68,31 @@ if(user1.isStaff == true){
                   return Column(
                     children: [
                       Text("Ongoing"),
-                      if(OrderTile(order: snapshot.data[0][index]).order.docId != "Empty")OrderTile(order: snapshot.data[0][index]),
+                      if(snapshot.data != null && OrderTile(order: snapshot.data[0][index]).order.docId != "Empty")
+                      OrderTile(order: snapshot.data[0][index])
                     ],
                   );
                 }
-                if(index < orders.length)return OrderTile(order: snapshot.data[0][index]);
+                if(snapshot.data != null && index < orders.length && index > 0 && OrderTile(order: snapshot.data[0][index]).order.docId != "Empty")return OrderTile(order: snapshot.data[0][index]);
                 if(index == orders.length) {
                   return Column(
                     children: [
                       Text("Await for pickup"),
-                      if(AwaitTile(order: snapshot.data[1][index-orders.length]).order.docId != "Empty")AwaitTile(order: snapshot.data[1][index-orders.length])
+                      if(snapshot.data != null && AwaitTile(order: snapshot.data[1][index-orders.length]).order.docId != "Empty")
+                      AwaitTile(order: snapshot.data[1][index-orders.length])
                     ],
                   );
                 }
-                if(index < (orders.length + awaitOrders.length))return AwaitTile(order: snapshot.data[1][index-orders.length]);
+                if(snapshot.data != null && index < (orders.length + awaitOrders.length) && index > orders.length && AwaitTile(order: snapshot.data[1][index-orders.length]).order.docId != "Empty")return AwaitTile(order: snapshot.data[1][index-orders.length]);
                 if(index == orders.length + awaitOrders.length){
                   return Column(
                     children: [
                       Text("Previous"),
-                      if(PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]).order.docId != "Empty")PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]),
+                      if(snapshot.data != null && PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]).order.docId != "Empty")PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]),
                     ],
                   );
                 }
-                if(index < (orders.length + previousOrders.length + awaitOrders.length))return PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]);
+                if(snapshot.data != null && index < (orders.length + previousOrders.length + awaitOrders.length) && index > (orders.length + awaitOrders.length) && PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]).order.docId != "Empty")return PreviousTile(order: snapshot.data[2][index-orders.length-awaitOrders.length]);
               return SizedBox(height: 0);
               }
             );
