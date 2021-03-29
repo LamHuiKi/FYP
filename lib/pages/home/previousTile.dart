@@ -21,7 +21,7 @@ class PreviousTile extends StatelessWidget {
       child: ListTile(
         title: Row(
           children: [
-            Text(order.time),
+            Text(order.restaurant),
             //IconButton(icon: Icon(Icons.change_history), onPressed: null)
             //Text(order.id),
           ],

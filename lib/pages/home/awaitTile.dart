@@ -21,7 +21,7 @@ class AwaitTile extends StatelessWidget {
       child: ListTile(
         title: Row(
           children: [
-            Text(order.time),
+            Text(order.restaurant),
           ],
         ),
         subtitle: Column(

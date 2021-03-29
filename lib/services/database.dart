@@ -24,7 +24,7 @@ class DatabaseService{
     return FirebaseFirestore.instance.collection('orders/$uid/$path');
   }
 
-  Future newDocumentInDatabase(String docName, String path, String date, String time, String id, String phoneNumber, String food, String lockerCell)async{
+  Future newDocumentInDatabase(String docName, String path, String date, String time, String id, String phoneNumber, String food, String lockerCell, String restaurant)async{
     if(docName == null){
       DocumentReference ref = getCollection(uid, path).doc();
       await ref.set({
@@ -35,6 +35,7 @@ class DatabaseService{
       'phoneNumber': phoneNumber,
       'food': food,
       'lockerCell': lockerCell,
+      'restaurant': restaurant,
     });
     return ref;
     }
@@ -46,6 +47,7 @@ class DatabaseService{
       'phoneNumber': phoneNumber,
       'food': food,
       'lockerCell': lockerCell,
+      'restaurant': restaurant,
     });
   }
   
@@ -55,16 +57,15 @@ class DatabaseService{
       'phoneNumber': phoneNumber,
       'isStaff': isStaff,
     });
-    await newDocumentInDatabase('*Empty', 'Ongoing', null, null, null, null, null, null);
-    await newDocumentInDatabase('*Empty', 'AwaitPickUp', null, null, null, null, null, null);
-    await newDocumentInDatabase('*Empty', 'Previous', null, null, null, null, null, null);
+    await newDocumentInDatabase('*Empty', 'Ongoing', null, null, null, null, null, null, null);
+    await newDocumentInDatabase('*Empty', 'AwaitPickUp', null, null, null, null, null, null, null);
+    await newDocumentInDatabase('*Empty', 'Previous', null, null, null, null, null, null, null);
     await phoneNumberCollection.doc(phoneNumber).set({'uid': uid});
   }
 
   Future switchOrderType(String docName, String lockerCell, String before, String after)async{
     DocumentSnapshot docRef = await getCollection(uid, before).doc(docName).get();
-    print("I have go here once: $docName");
-    await newDocumentInDatabase(docName, after, docRef.data()['date'], docRef.data()['time'], docRef.data()['id'], docRef.data()['phoneNumber'], docRef.data()['food'], lockerCell);
+    await newDocumentInDatabase(docName, after, docRef.data()['date'], docRef.data()['time'], docRef.data()['id'], docRef.data()['phoneNumber'], docRef.data()['food'], lockerCell, docRef.data()['restaurant']);
     await getCollection(uid, before).doc(docName).delete();
   }
 
@@ -83,6 +84,7 @@ class DatabaseService{
         docId: doc.data()['docId'] ?? '',
         food: doc.data()['food'] ?? '',
         phoneNumber: doc.data()['phoneNumber'] ?? '',
+        restaurant: doc.data()['restaurant'] ?? '',
       );
     }).toList();
   }
@@ -96,6 +98,7 @@ class DatabaseService{
         docId: doc.data()['docId'] ?? '',
         food: doc.data()['food'] ?? '',
         phoneNumber: doc.data()['phoneNumber'] ?? '',
+        restaurant: doc.data()['restaurant'] ?? '',
       );
     }).toList();
   }
@@ -109,6 +112,7 @@ class DatabaseService{
         docId: doc.data()['docId'] ?? '',
         food: doc.data()['food'] ?? '',
         phoneNumber: doc.data()['phoneNumber'] ?? '',
+        restaurant: doc.data()['restaurant'] ?? '',
       );
     }).toList();
   }
@@ -127,6 +131,12 @@ class DatabaseService{
   Future getUidByPhoneNumber(String phoneNumber)async{
     DocumentSnapshot ref = await phoneNumberCollection.doc(phoneNumber).get();
     String result = await ref.data()['uid'];
+    return result;
+  }
+
+  Future getNickName()async{
+    DocumentSnapshot ref = await orderCollection.doc(uid).get();
+    String result = await ref.data()['nickName'];
     return result;
   }
 

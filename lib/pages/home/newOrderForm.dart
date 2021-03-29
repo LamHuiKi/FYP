@@ -17,7 +17,7 @@ class _OrderFormState extends State<OrderForm> {
   @override
   Widget build(BuildContext context) {
      final user = Provider.of<MyUserInfo>(context);
-
+    //final user1 = Provider.of<UserData>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Form'),
@@ -50,9 +50,11 @@ class _OrderFormState extends State<OrderForm> {
                     ),
                   ),
                 FlatButton(
-                  child: Text('Order!!!!'),
+                  child: Text('Order!!!'),
                   onPressed: ()async{
-                    await DatabaseService(uid: user.uid).newDocumentInDatabase(null, "Ongoing", DateFormat.yMd().format(DateTime.now()), DateFormat.jm().format(DateTime.now()), user.uid, _phone, _food, null);
+                    String nickName = await DatabaseService(uid: user.uid).getNickName();
+                    await DatabaseService(uid: user.uid).newDocumentInDatabase(null, "Ongoing", DateFormat.yMd().format(DateTime.now()), DateFormat.jm().format(DateTime.now()), user.uid, _phone, _food, null, nickName);
+                    Navigator.pop(context);
                   },
                   color: Colors.deepPurpleAccent,
                 ),

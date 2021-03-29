@@ -10,20 +10,22 @@ class OrderTile extends StatelessWidget {
   final Orders order;
   
   OrderTile({this.order});
+
   qrScan(context, bool isStaff, String uid)async{
   String result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>QRViewExample()) ) ?? "...";
-  print("orderTile isStaff: $isStaff");
-   //await DatabaseService(lockerid: result).updateLockerDatabase('open', true);
-   //print("fffffffff: ${user.uid}");
+  //print("orderTile isStaff: $isStaff");
+  //print("fffffffff: ${user.uid}");
   
+  await DatabaseService(lockerid: result).updateLockerDatabase('open', true);
   if(isStaff){
+
     DocumentSnapshot ref = await FirebaseFirestore.instance.collection('orders').doc(order.id).collection('Ongoing').doc(order.docId).get();
     String customerId = await DatabaseService().getUidByPhoneNumber(ref.data()['phoneNumber']);
-    await DatabaseService(uid: customerId).newDocumentInDatabase(order.docId, 'Ongoing', order.date, order.time, order.id, order.phoneNumber, order.food, result);
+    await DatabaseService(uid: customerId).newDocumentInDatabase(order.docId, 'Ongoing', order.date, order.time, order.id, order.phoneNumber, order.food, result, order.restaurant);
     await DatabaseService(uid: order.id).switchOrderType(order.docId, result, "Ongoing", "AwaitPickUp");
   }else{
     await DatabaseService(uid: order.id).switchOrderType(order.docId, result, "AwaitPickUp", "Previous");
-    print("customer after: ${order.docId}");
+    //print("customer after: ${order.docId}");
     await DatabaseService(uid: uid).switchOrderType(order.docId, result, "Ongoing", "Previous");
     
   }
@@ -43,7 +45,7 @@ class OrderTile extends StatelessWidget {
       child: ListTile(
         title: Row(
           children: [
-            Text(order.time),
+            Text(order.restaurant),
             //IconButton(icon: Icon(Icons.change_history), onPressed: null)
             //Text(order.id),
           ],
