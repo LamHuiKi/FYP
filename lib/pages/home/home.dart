@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<MyUserInfo>(context);
-    void _showSettingsPanel(){
+/*    void _showSettingsPanel(){
       showModalBottomSheet(
         context: context,
         builder: (context){
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
         }
       );
     }
-
+*/
     return StreamProvider<List<AwaitOrders>>.value(
       value: DatabaseService(uid:user.uid).awaitOrders,
       child: StreamProvider<List<PreviousOrders>>.value(
@@ -46,26 +46,24 @@ class HomePage extends StatelessWidget {
           child: StreamProvider<UserData>.value(
             value: DatabaseService(uid: user.uid).userData,
               child: Scaffold(
+              backgroundColor: Colors.grey[200],
+              //drawer: Drawer(),
               appBar: AppBar(
-              //backgroundColor: Colors.blueGrey,
               title: Text('My Home'),
               actions: [
                 IconButton(
-                  icon: Icon(Icons.chat_bubble_outline),
+                  icon: Icon(
+                    Icons.portrait,
+                    //color: Colors.black,
+                  ),
                   onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> SettingsForm() ));},
                 ),
-                FlatButton.icon(
-                  onPressed: ()async{
-                    await _auth.signOut();
-                  },
-                  icon: Icon(Icons.person),
-                  label: Text('logout'),
-                ),
-                FlatButton.icon(
+                
+                /*FlatButton.icon(
                   onPressed: _showSettingsPanel,
                   icon: Icon(Icons.settings),
                   label: Text('settings'),
-                ),
+                ),*/
                 IconButton(
                   icon: Icon(Icons.add),
                   onPressed: ()async{
@@ -73,9 +71,16 @@ class HomePage extends StatelessWidget {
                     Navigator.push(context, MaterialPageRoute(builder: (context)=> OrderForm() ));
                   },
                 ),
+                FlatButton.icon(
+                  onPressed: ()async{
+                    await _auth.signOut();
+                  },
+                  icon: Icon(Icons.logout),
+                  label: Text('logout'),
+                ),
               ],
             ),
-        backgroundColor: Colors.grey,
+        //backgroundColor: Colors.grey,
         body: OrderList(),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),

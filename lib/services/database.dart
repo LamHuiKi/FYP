@@ -57,9 +57,9 @@ class DatabaseService{
       'phoneNumber': phoneNumber,
       'isStaff': isStaff,
     });
-    await newDocumentInDatabase('*Empty', 'Ongoing', null, null, null, null, null, null, null);
-    await newDocumentInDatabase('*Empty', 'AwaitPickUp', null, null, null, null, null, null, null);
-    await newDocumentInDatabase('*Empty', 'Previous', null, null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'Ongoing', null, null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'AwaitPickUp', null, null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'Previous', null, null, null, null, null, null, null);
     await phoneNumberCollection.doc(phoneNumber).set({'uid': uid});
   }
 

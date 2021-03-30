@@ -28,7 +28,7 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        //backgroundColor: Colors.blueGrey,
         title: Text('Sign Up'),
         actions: [
           FlatButton.icon(

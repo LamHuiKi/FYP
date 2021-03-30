@@ -53,8 +53,13 @@ class OrderTile extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(order.food),
-            Text("${order.date} ${order.time}"),
+            Text(
+              order.food,
+            ),
+            Text(
+              "${order.date} ${order.time}",
+              style: TextStyle(fontSize: 10),
+            ),
           ],
         ),
         trailing: IconButton(icon: Icon(Icons.qr_code_scanner), onPressed: ()async{await qrScan(context, user.isStaff, user.uid);})

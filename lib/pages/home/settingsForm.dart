@@ -69,7 +69,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   onChanged: (inputNumber) => setState(() => _valueBInput = inputNumber),
                 ),*/
                 SizedBox(height:20.0),
-                Slider(
+                /*Slider(
                   value: (_valueCInput ?? 400).toDouble(),
                   min: 100,
                   max: 900,
@@ -79,6 +79,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   onChanged: (val) => setState(() => _valueCInput = val.round())
                 ),
                 SizedBox(height:20.0),
+                */
                 RaisedButton(
                   onPressed: ()async{
                     print(_valueAInput);

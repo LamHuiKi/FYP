@@ -22,7 +22,6 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       backgroundColor: Colors.grey,
       appBar: AppBar(
-        //backgroundColor: Colors.blueGrey,
         title: Text('Sign In'),
         actions: [
           FlatButton.icon(

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.deepPurple[100]
+          primaryColor: Colors.deepPurple[300]
         ) ,
         home: Wrapper(),
       ),
