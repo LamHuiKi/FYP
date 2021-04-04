@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase1/services/database.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +93,7 @@ Future<void> _showMyDialog() async {
                     await _showMyDialog();
                     if(confirmOrder){
                       String nickName = await DatabaseService(uid: user.uid).getNickName();
-                      await DatabaseService(uid: user.uid).newDocumentInDatabase(null, "Ongoing", DateFormat.yMd().format(DateTime.now()), DateFormat.jm().format(DateTime.now()), user.uid, _phone, _food, null, nickName);
+                      await DatabaseService(uid: user.uid).newDocumentInDatabase(null, "Ongoing", DateFormat.yMd().format(DateTime.now()), DateFormat.jm().format(DateTime.now()), user.uid, _phone, _food, null, nickName, DateTime.now().toString());
                       Navigator.pop(context);
                     }
                   },

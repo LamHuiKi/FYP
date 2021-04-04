@@ -21,7 +21,8 @@ class OrderTile extends StatelessWidget {
 
     DocumentSnapshot ref = await FirebaseFirestore.instance.collection('orders').doc(order.id).collection('Ongoing').doc(order.docId).get();
     String customerId = await DatabaseService().getUidByPhoneNumber(ref.data()['phoneNumber']);
-    await DatabaseService(uid: customerId).newDocumentInDatabase(order.docId, 'Ongoing', order.date, order.time, order.id, order.phoneNumber, order.food, result, order.restaurant);
+    String timestamp = await ref.data()['timestamp'];
+    await DatabaseService(uid: customerId).newDocumentInDatabase(order.docId, 'Ongoing', order.date, order.time, order.id, order.phoneNumber, order.food, result, order.restaurant, timestamp);
     await DatabaseService(uid: order.id).switchOrderType(order.docId, result, "Ongoing", "AwaitPickUp");
   }else{
     await DatabaseService(uid: order.id).switchOrderType(order.docId, result, "AwaitPickUp", "Previous");
@@ -42,6 +43,7 @@ class OrderTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserData>(context);
     return Card(
+      elevation: 3.0,
       child: ListTile(
         title: Row(
           children: [
@@ -58,7 +60,7 @@ class OrderTile extends StatelessWidget {
             ),
             Text(
               "${order.date} ${order.time}",
-              style: TextStyle(fontSize: 10),
+              style: TextStyle(fontWeight: FontWeight.w700),
             ),
           ],
         ),

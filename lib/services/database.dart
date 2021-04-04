@@ -24,7 +24,7 @@ class DatabaseService{
     return FirebaseFirestore.instance.collection('orders/$uid/$path');
   }
 
-  Future newDocumentInDatabase(String docName, String path, String date, String time, String id, String phoneNumber, String food, String lockerCell, String restaurant)async{
+  Future newDocumentInDatabase(String docName, String path, String date, String time, String id, String phoneNumber, String food, String lockerCell, String restaurant, String timestamp)async{
     if(docName == null){
       DocumentReference ref = getCollection(uid, path).doc();
       await ref.set({
@@ -36,6 +36,7 @@ class DatabaseService{
       'food': food,
       'lockerCell': lockerCell,
       'restaurant': restaurant,
+      'timestamp': timestamp,
     });
     return ref;
     }
@@ -48,6 +49,7 @@ class DatabaseService{
       'food': food,
       'lockerCell': lockerCell,
       'restaurant': restaurant,
+      'timestamp': timestamp
     });
   }
   
@@ -57,15 +59,15 @@ class DatabaseService{
       'phoneNumber': phoneNumber,
       'isStaff': isStaff,
     });
-    await newDocumentInDatabase('Empty', 'Ongoing', null, null, null, null, null, null, null);
-    await newDocumentInDatabase('Empty', 'AwaitPickUp', null, null, null, null, null, null, null);
-    await newDocumentInDatabase('Empty', 'Previous', null, null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'Ongoing', null, null, null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'AwaitPickUp', null, null, null, null, null, null, null, null);
+    await newDocumentInDatabase('Empty', 'Previous', null, null, null, null, null, null, null, null);
     await phoneNumberCollection.doc(phoneNumber).set({'uid': uid});
   }
 
   Future switchOrderType(String docName, String lockerCell, String before, String after)async{
     DocumentSnapshot docRef = await getCollection(uid, before).doc(docName).get();
-    await newDocumentInDatabase(docName, after, docRef.data()['date'], docRef.data()['time'], docRef.data()['id'], docRef.data()['phoneNumber'], docRef.data()['food'], lockerCell, docRef.data()['restaurant']);
+    await newDocumentInDatabase(docName, after, docRef.data()['date'], docRef.data()['time'], docRef.data()['id'], docRef.data()['phoneNumber'], docRef.data()['food'], lockerCell, docRef.data()['restaurant'], docRef.data()['timestamp']);
     await getCollection(uid, before).doc(docName).delete();
   }
 
@@ -145,15 +147,15 @@ class DatabaseService{
     return await ref.data()['isStaff'];
   }
   Stream<List<Orders>> get orders{
-    return getCollection(uid, "Ongoing").snapshots().map(_orderListFromSnapshot);
+    return getCollection(uid, "Ongoing").orderBy('timestamp', descending: true).snapshots().map(_orderListFromSnapshot);
   }
 
   Stream<List<PreviousOrders>> get previousOrders{
-    return getCollection(uid, "Previous").snapshots().map(_previousListFromSnapshot);
+    return getCollection(uid, "Previous").orderBy('timestamp', descending: true).snapshots().map(_previousListFromSnapshot);
   }
 
   Stream<List<AwaitOrders>> get awaitOrders{
-    return getCollection(uid, "AwaitPickUp").snapshots().map( _awaitListFromSnapshot);
+    return getCollection(uid, "AwaitPickUp").orderBy('timestamp', descending: true).snapshots().map( _awaitListFromSnapshot);
   }
 
   Stream<UserData> get userData{

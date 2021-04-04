@@ -1,9 +1,7 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase1/models/orders.dart';
 import 'package:firebase1/models/user.dart';
 import 'package:firebase1/pages/home/orderList.dart';
-import 'package:firebase1/pages/test/lockerInfo.dart';
 import 'package:firebase1/services/auth.dart';
 import 'package:firebase1/services/database.dart';
 import 'package:firebase1/pages/home/settingsForm.dart';
@@ -13,6 +11,9 @@ import 'package:provider/provider.dart';
 import 'package:firebase1/models/previousOrder.dart';
 import 'package:firebase1/models/AwaitOrder.dart';
 import 'newOrderForm.dart';
+//gradient appbar
+import 'package:gradient_app_bar/gradient_app_bar.dart';
+import 'package:flutter_gradients/flutter_gradients.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -46,10 +47,11 @@ class HomePage extends StatelessWidget {
           child: StreamProvider<UserData>.value(
             value: DatabaseService(uid: user.uid).userData,
               child: Scaffold(
-              backgroundColor: Colors.grey[200],
+              backgroundColor: Colors.white,
               //drawer: Drawer(),
-              appBar: AppBar(
+              appBar: GradientAppBar(
               title: Text('My Home'),
+              gradient: const LinearGradient(colors: [Colors.purple, Colors.purpleAccent]),
               actions: [
                 IconButton(
                   icon: Icon(
