@@ -39,17 +39,16 @@ class _QRViewExampleState extends State<QRViewExample> {
           Expanded(
             flex: 1,
             child: FittedBox(
-              fit: BoxFit.contain,
+              fit: BoxFit.none,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   if (result != null)
                     Text(
-                        'Barcode Type: ${describeEnum(result.format)}   Data: ${result.code}')                      
-                        //dnjsndjsdjnd
+                        'QRcode Type: ${describeEnum(result.format)}   Data: ${result.code}')                      
                   else
                     Text('Scan a code'),
-                  Row(
+                  /*Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -85,12 +84,12 @@ class _QRViewExampleState extends State<QRViewExample> {
                             )),
                       )
                     ],
-                  ),
+                  ),*/
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
+                      /*Container(
                         margin: EdgeInsets.all(8),
                         child: RaisedButton(
                           onPressed: () {
@@ -98,16 +97,15 @@ class _QRViewExampleState extends State<QRViewExample> {
                           },
                           child: Text('pause', style: TextStyle(fontSize: 20)),
                         ),
-                      ),
+                      ),*/
                       Container(
-                        margin: EdgeInsets.all(8),
+                        margin: EdgeInsets.all(2),
                         child: RaisedButton(
                           onPressed: () {
                             controller?.resumeCamera();
-                            //Navigator.pop(context);
                             Navigator.pop(context, result?.code??".......");
                           },
-                          child: Text('resume', style: TextStyle(fontSize: 20)),
+                          child: Text('resume', style: TextStyle(fontSize: 10)),
                         ),
                       )
                     ],

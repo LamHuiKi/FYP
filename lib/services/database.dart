@@ -55,7 +55,7 @@ class DatabaseService{
   
   Future updateDatabase(String nickname, String phoneNumber, bool isStaff)async{
     await orderCollection.doc(uid).set({
-      'nickname': nickname,
+      'nickName': nickname,
       'phoneNumber': phoneNumber,
       'isStaff': isStaff,
     });
@@ -123,7 +123,7 @@ class DatabaseService{
     return UserData(
       uid: uid,
       isStaff: snapshot.data()['isStaff'] ?? false,
-      nickname: snapshot.data()['nickname'] ?? '',
+      nickname: snapshot.data()['nickName'] ?? '',
       phoneNumber: snapshot.data()['phoneNumber'] ?? '',
       valueA: snapshot.data()['valueA'] ?? '',
       valueB: snapshot.data()['valueB'] ?? 0,

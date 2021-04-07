@@ -12,8 +12,9 @@ import 'package:firebase1/models/previousOrder.dart';
 import 'package:firebase1/models/AwaitOrder.dart';
 import 'newOrderForm.dart';
 //gradient appbar
-import 'package:gradient_app_bar/gradient_app_bar.dart';
-import 'package:flutter_gradients/flutter_gradients.dart';
+//import 'package:gradient_app_bar/gradient_app_bar.dart';
+//import 'package:flutter_gradients/flutter_gradients.dart';
+import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
@@ -49,7 +50,7 @@ class HomePage extends StatelessWidget {
               child: Scaffold(
               backgroundColor: Colors.white,
               //drawer: Drawer(),
-              appBar: GradientAppBar(
+              appBar: NewGradientAppBar(
               title: Text('My Home'),
               gradient: const LinearGradient(colors: [Colors.purple, Colors.purpleAccent]),
               actions: [
