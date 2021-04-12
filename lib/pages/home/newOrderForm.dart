@@ -98,7 +98,7 @@ class _OrderFormState extends State<OrderForm> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FlatButton(
-                        color: Colors.lightGreen[50],
+                        color: Colors.grey[300],
                         //textColor: Colors.blue,
                         child: Text('Confirm'),
                         onPressed: () async {

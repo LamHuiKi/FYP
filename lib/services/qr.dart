@@ -101,7 +101,7 @@ class _QRViewExampleState extends State<QRViewExample> {
                       Container(
                         margin: EdgeInsets.all(2),
                         child: RaisedButton(
-                          onPressed: () {
+                          onPressed: (){
                             controller?.resumeCamera();
                             Navigator.pop(context, result?.code??".......");
                           },
