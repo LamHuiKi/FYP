@@ -12,23 +12,30 @@ class OrderTile extends StatelessWidget {
   OrderTile({this.order});
 
   qrScan(context, bool isStaff, String uid)async{
-  String result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>QRViewExample()) ) ?? "...";
+  String result = await Navigator.push(context, MaterialPageRoute(builder: (context)=>QRViewExample()) );
   //print("orderTile isStaff: $isStaff");
   //print("fffffffff: ${user.uid}");
   
-  await DatabaseService(lockerid: result).updateLockerDatabase('open', true);
+  //await DatabaseService(lockerid: result).updateLockerDatabase('open', true);
+  String address = await DatabaseService().getLockerAddressById(result);
+  
   if(isStaff){
-
-    DocumentSnapshot ref = await FirebaseFirestore.instance.collection('orders').doc(order.id).collection('Ongoing').doc(order.docId).get();
-    String customerId = await DatabaseService().getUidByPhoneNumber(ref.data()['phoneNumber']);
-    String timestamp = await ref.data()['timestamp'];
-    await DatabaseService(uid: customerId).newDocumentInDatabase(order.docId, 'Ongoing', order.date, order.time, order.id, order.phoneNumber, order.food, result, order.restaurant, timestamp);
-    await DatabaseService(uid: order.id).switchOrderType(order.docId, result, "Ongoing", "AwaitPickUp");
-  }else{
-    await DatabaseService(uid: order.id).switchOrderType(order.docId, result, "AwaitPickUp", "Previous");
-    //print("customer after: ${order.docId}");
-    await DatabaseService(uid: uid).switchOrderType(order.docId, result, "Ongoing", "Previous");
+    //add checking
     
+    if(address != null){
+      DocumentSnapshot ref = await FirebaseFirestore.instance.collection('orders').doc(order.id).collection('Ongoing').doc(order.docId).get();
+      String customerId = await DatabaseService().getUidByPhoneNumber(ref.data()['phoneNumber']);
+      String timestamp = await ref.data()['timestamp'];
+      await DatabaseService(uid: customerId).newDocumentInDatabase(order.docId, 'Ongoing', order.date, order.time, order.id, order.phoneNumber, order.food, address, order.restaurant, timestamp);
+      await DatabaseService(uid: order.id).switchOrderType(order.docId, address, "Ongoing", "AwaitPickUp");
+      await DatabaseService(lockerid: address).updateLockerDatabase('open', true);
+    }
+  }else{
+    print("thissssssssss: ${order.lockerCell}");
+    await DatabaseService(uid: order.id).switchOrderType(order.docId, this.order.lockerCell, "AwaitPickUp", "Previous");
+    //print("customer after: ${order.docId}");
+    await DatabaseService(lockerid: order.lockerCell).updateLockerDatabase('open', true);
+    await DatabaseService(uid: uid).switchOrderType(order.docId, order.lockerCell, "Ongoing", "Previous");
   }
   /*DocumentSnapshot ref = await FirebaseFirestore.instance.collection('orders').doc(order.id).collection('Ongoing').doc(order.docId).get();
    String customerId = await DatabaseService().getUidByPhoneNumber(ref.data()['phoneNumber']);

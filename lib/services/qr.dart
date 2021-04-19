@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase1/pages/home/home.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -102,8 +103,9 @@ class _QRViewExampleState extends State<QRViewExample> {
                         margin: EdgeInsets.all(2),
                         child: RaisedButton(
                           onPressed: (){
-                            controller?.resumeCamera();
-                            Navigator.pop(context, result?.code??".......");
+                            
+                            //controller?.resumeCamera();
+                            Navigator.pop(context, result?.code??null);
                           },
                           child: Text('resume', style: TextStyle(fontSize: 10)),
                         ),
@@ -149,6 +151,16 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        if(result.code.isNotEmpty){
+          if(result.code.length == 36){
+            controller?.pauseCamera();
+            Navigator.pop(context, result?.code??null);
+          }
+        }
+        //if(result.code.isNotEmpty){
+          //controller?.pauseCamera();
+          //Navigator.pop(context, result?.code??null);
+          //Navigator.popUntil(context, ModalRoute.withName(HomePage.routeName));        }
       });
     });
   }

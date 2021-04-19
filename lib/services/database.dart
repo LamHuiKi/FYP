@@ -16,12 +16,21 @@ class DatabaseService{
   //final CollectionReference orderCollection3 = FirebaseFirestore.instance.collection('orders/{uid}/AwaitPickUp');
   final CollectionReference lockerCollection = FirebaseFirestore.instance.collection('test');//test code
   final CollectionReference phoneNumberCollection = FirebaseFirestore.instance.collection('phoneNumberToUid');
-
   CollectionReference getCollection(String uid, String path){
     //print('this is: ');
     //print(uid);
     //print(FirebaseFirestore.instance.collection('orders/$uid/$path').path);
     return FirebaseFirestore.instance.collection('orders/$uid/$path');
+  }
+
+  Future getLockerAddressById(String id) async{
+    QuerySnapshot result = await lockerCollection.where("identifier", isEqualTo: id).get();
+
+    if(result.docs.isNotEmpty){
+      return result.docs.first.id;
+    }else{
+      return null;
+    }
   }
 
   Future newDocumentInDatabase(String docName, String path, String date, String time, String id, String phoneNumber, String food, String lockerCell, String restaurant, String timestamp)async{
@@ -72,9 +81,11 @@ class DatabaseService{
   }
 
   Future updateLockerDatabase(String field, bool value)async{    //test
-    return await lockerCollection.doc(lockerid).update({
-      field: value,
-    });
+    if(lockerCollection.doc(lockerid) != null){
+      return await lockerCollection.doc(lockerid).update({
+        field: value,
+      });
+    }else return null;
   }
   
   List<PreviousOrders> _previousListFromSnapshot(QuerySnapshot snapshot){
@@ -101,6 +112,7 @@ class DatabaseService{
         food: doc.data()['food'] ?? '',
         phoneNumber: doc.data()['phoneNumber'] ?? '',
         restaurant: doc.data()['restaurant'] ?? '',
+        lockerCell: doc.data()['lockerCell'] ?? '',
       );
     }).toList();
   }

@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
     _firebaseMessaging.getToken().then((device){print('token: $device');});
   }
   final AuthService _auth = AuthService();
-  
+  static const routeName = '/homeRoute';  
 
   @override
   Widget build(BuildContext context) {
