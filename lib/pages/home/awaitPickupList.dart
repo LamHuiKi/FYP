@@ -1,6 +1,7 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase1/models/AwaitOrder.dart';
 import 'package:firebase1/models/orders.dart';
+import 'package:firebase1/shared/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase1/pages/home/orderTile.dart';
@@ -27,7 +28,7 @@ class _AwaitListState extends State<AwaitList> {
     final user = Provider.of<MyUserInfo>(context);
     final user1 = Provider.of<UserData>(context);
 
-if(user1 == null)return SizedBox(height: 0);
+if(user1 == null)return Loading();
 
     return StreamBuilder(
           stream: DatabaseService(uid: user.uid).awaitOrders,
@@ -35,6 +36,7 @@ if(user1 == null)return SizedBox(height: 0);
             return ListView.builder(
               itemCount: awaitOrders.length,
               itemBuilder: (context, index) {
+                if(awaitOrders.length == 1) return Center(heightFactor: 30, child: Text('No order for customer pickup at the moment'));
                 if(index == 0) {
                   return Column(
                     children: [

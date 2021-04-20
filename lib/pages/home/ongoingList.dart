@@ -22,7 +22,7 @@ class _OngoingListState extends State<OngoingList> {
     final user = Provider.of<MyUserInfo>(context);
     final user1 = Provider.of<UserData>(context);
 
-if(user1 == null)return Loading();//SizedBox(height: 0);
+if(user1 == null)return Loading();
 
     return StreamBuilder(
           stream: DatabaseService(uid: user.uid).orders,
@@ -30,6 +30,7 @@ if(user1 == null)return Loading();//SizedBox(height: 0);
             return ListView.builder(
               itemCount: orders.length,
               itemBuilder: (context, index) {
+                if(orders.length == 1) return Center(heightFactor: 30, child: Text('No ongoing order at the moment'));
                 if(index == 0) {
                   return Column(
                     children: [
